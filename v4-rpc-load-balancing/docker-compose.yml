@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  nginx-rpc: 
+    image: nginx
+    restart: unless-stopped
+    container_name: nginx-rpc
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "./default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx.conf:/etc/nginx/nginx.conf"
+      - "./ssl/fullchain.pem:/etc/nginx/certs/fullchain.pem"
+      - "./ssl/privkey.pem:/etc/nginx/certs/privkey.pem"
+    networks:
+      - nginx
+
+
+networks:
+  nginx:
+    external: true  
